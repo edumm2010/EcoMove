@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login-EcoMove</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="body-login">
+    <main class="login-pagina">
+        <section class="login-apresentacao">
+            <a href="index.html" class="voltar-site">← Voltar ao site</a>
+            <div class="login-marca">
+                <img src="img/logo.png" alt="Logo EcoMove">
+                <h1>EcoMove</h1>
+                <h2>Mobilidade inteligente <br> Futuro sustentável.</h2>
+                <p>Plataforma de gerenciamento EcoMove</p>
+                <div class="login-recursos">
+
+                    <div class="login-recurso">
+                        <span>⚡</span>
+                        <p>Recarga inteligente</p>
+                    </div>
+
+                    <div class="login-recurso">
+                        <span>📍</span>
+                        <p>Estações próximas</p>
+                    </div>
+
+                    <div class="login-recurso">
+                        <span>🌱</span>
+                        <p>Mobilidade sustentável</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="login-box">
+            <section class="login-area">
+                <div class="login-formulario">
+                    <span class="login-tag">ÁREA ADMINISTRATIVA</span>
+                    <h2>Bem-Vindo(a)!</h2>
+                    <p class="login-descricao">Entre em sua conta para acessar o sistema</p>
+                    <p class="mensagem-erro" id="mensagemErro">E-mail ou senha incorretos!</p>
+                    <form action="/login" method="POST">
+                        <div class="campo-login">
+                            <label for="email">👤E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+                        </div>
+                        <div class="campo-login">
+                            <label for="senha">🔑Senha</label>
+                            <div class="senha-container">
+                                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                                <button type="button" class="mostrar-senha" onclick="mostrarSenha()">👁️</button>
+                            </div>
+                        </div>
+                        <button class="botao-login" type="submit">Entrar <span>→</span></button>
+                    </form>
+                    <div class="login-seguranca">
+                        <span>🔒</span><p>Acesso restrito aos administradores EcoMove</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        function mostrarSenha() {
+            const senha = document.getElementById("senha");
+            const botao = document.querySelector(".mostrar-senha");
+
+            if (senha.type === "password") {
+                senha.type = "text";
+                botao.classList.add("ativo");
+            }  
+            else {
+                senha.type = "password";
+                botao.classList.remove("ativo");
+            }
+        }
+
+        const parametros = new URLSearchParams(window.location.search);
+
+        if (parametros.get("erro") === "1") {
+            const mensagem = document.getElementById("mensagemErro");
+
+            if (mensagem) {
+                mensagem.style.display = "block";
+            }
+        }
+    </script>
+    <footer class="footer-login">
+        <p>Projeto Ciclo Global 3°Bimestre | Carro Elétrico <br>
+            Desenvolvido por: Eduardo de Macedo, Maria Eduarda Menezes, Mateus Reis, Diego Alexandre, Gabriel Lopes e Kauan Reis - Última Atualização: 06/09/2026 - 20:30</p>
+    </footer>
+</body>
+</html>
