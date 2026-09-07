@@ -77,9 +77,35 @@ def diagramas(arquivo):
     )
 
 
-@app.route("/login", methods=["GET"])
+@app.route("/login.html")
+def login_html():
+    return redirect(url_for("pagina_login"))
+
+
+@app.route("/login", methods=["GET", "POST"])
 def pagina_login():
-    return send_from_directory(".", "login.html")
+
+    if request.method == "GET":
+        return send_from_directory(".", "login.html")
+
+    email = request.form["email"]
+    senha = request.form["senha"]
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    comando = "SELECT * FROM usuarios WHERE email = %s"
+    cursor.execute(comando, (email,))
+    usuario = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if usuario and check_password_hash(usuario["senha"], senha):
+        session["usuario"] = usuario["nome"]
+        return redirect(url_for("admin"))
+
+    return redirect("/login?erro=1")
 
 
 @app.route("/admin")
