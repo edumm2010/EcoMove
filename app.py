@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for, send_from_directory, sessio
 import mysql.connector
 import os
 from dotenv import load_dotenv
+from werkzeug.security import check_password_hash
 load_dotenv()
 
 app = Flask(__name__)
@@ -89,14 +90,14 @@ def login():
     conexao = conectar_banco()
     cursor = conexao.cursor(dictionary=True)
 
-    comando = "SELECT * FROM usuarios WHERE email = %s AND senha = %s"
-    cursor.execute(comando, (email, senha))
+    comando = "SELECT * FROM usuarios WHERE email = %s"
+    cursor.execute(comando, (email,))
     usuario = cursor.fetchone()
 
     cursor.close()
     conexao.close()
 
-    if usuario:
+    if usuario and check_password_hash(usuario["senha"], senha):
         session["usuario"] = usuario["nome"]
         return redirect(url_for("admin"))
 
